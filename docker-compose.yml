@@ -1,0 +1,37 @@
+services:
+  component-1:
+    image: rabbitmq:3-management
+    container_name: component-1
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  component-2:
+    build: ./component-2
+    container_name: component-2
+    ports:
+      - "8000:8000"
+    environment:
+      RABBIT_URL: amqp://guest:guest@component-1:5672/
+      QUEUE_NAME: items_queue
+    depends_on:
+      - component-1
+
+  component-3:
+    build: ./component-3
+    container_name: component-3
+    restart: on-failure
+    environment:
+      PYTHONUNBUFFERED: "1"
+      RABBIT_URL: amqp://guest:guest@component-1:5672/
+      QUEUE_NAME: items_queue
+      MONGO_URL: mongodb://component-4:27017
+    depends_on:
+      - component-1
+      - component-4
+
+  component-4:
+    image: mongo
+    container_name: component-4
+    ports:
+      - "27017:27017"
