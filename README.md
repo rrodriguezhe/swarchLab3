@@ -1,6 +1,6 @@
 # Laboratorio 3 — Patrones Arquitectónicos Estructurales (Broker)
 
-Raul Felipe Rodríguez Hernández
+Raúl Felipe Rodríguez Hernández
 
 ## Vista de Componentes y Conectores (C&C)
 
